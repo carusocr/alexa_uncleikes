@@ -1,0 +1,25 @@
+{
+  "name": "alexa_uncleikes",
+  "version": "0.0.1",
+  "description": "alexa app to report daily specials at Uncle Ike's",
+  "main": "index.js",
+  "dependencies": {
+    "alexa-app": "~2.3.4",
+    "iniparser": "~1.0.5",
+    "mysql": "~2.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carusocr/alexa_uncleikes.git"
+  },
+  "author": "Chris Caruso",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carusocr/alexa_uncleikes/issues"
+  },
+  "homepage": "https://github.com/carusocr/alexa_uncleikes#readme"
+}
