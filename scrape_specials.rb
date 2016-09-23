@@ -34,12 +34,17 @@ specials = []
 include Capybara::DSL
 visit ikes
 s = page.first(:xpath,"//div[@class='imp-extras']").text
-specials = s[/available: (.*)/,1].split(',').map {|x| x.sub(' and','').sub('.','').sub(/^ /,'')}
+specials = s[/available: (.*)\. /,1].sub(' and',',').split(',').map {|x| x.sub('.','').sub(/^ /,'')}
+#testing 
+
+specials.each do |i|
+  puts i
+end
 
 $dbh = Sequel.connect("mysql2://#{user}:#{pwd}@#{host}/#{db}")
 def update_database(specials)
   #delete old data from table
-  #$dbh.run("delete from specials")
+  $dbh.run("delete from specials")
   specials.each do |i|
     i = "Alaskan Thunder Fuck" if i == "ATF"
     $dbh.run("insert into specials(name) values ('#{i}')")
