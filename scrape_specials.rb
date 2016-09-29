@@ -34,7 +34,7 @@ specials = []
 include Capybara::DSL
 visit ikes
 s = page.first(:xpath,"//div[@class='imp-extras']").text
-specials = s[/available: (.*)\. /,1].sub(' and',',').split(',').map {|x| x.sub('.','').sub(/^ /,'')}
+specials = s[/available: (.*)\. /,1].sub(' and',',').split(',').map {|x| x.sub('.','').sub(/^ /,'').sub(/\'/,'')}
 #testing 
 
 specials.each do |i|
