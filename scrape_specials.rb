@@ -46,9 +46,19 @@ def update_database(specials)
   #delete old data from table
   $dbh.run("delete from specials")
   specials.each do |i|
-    i = "Alaskan Thunder Fuck" if i == "ATF"
     $dbh.run("insert into specials(name) values ('#{i}')")
   end
 end
 
 update_database(specials)
+
+
+
+
+
+
+
+
+
+
+
