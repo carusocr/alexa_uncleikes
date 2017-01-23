@@ -7,6 +7,35 @@ Author: Chris Caruso
 
 Script to crawl to Uncle Ike's site and get daily specials.
 
+xpath:
+
+1. Ike's age check default page:
+page.first(:xpath,"//div[contains(@id,'form-confirm-checkbox')]").click
+page.first(:xpath,'//*[@id="av-submit"]').click
+
+2. Then to main page:
+
+Sort by descending price:
+page.first(:xpath,"//div[contains(@class,'budbSortPrice')]").click
+
+Then get first...? prices?
+
+Iterate through budbTile list:
+z = page.first(:xpath,"//div[contains(@class,'budbTile')]")
+[36] pry(main)> z.first(:xpath,".//div[@class='budbUnit']").text
+=> "1G"
+[37] pry(main)> z.first(:xpath,".//div[@class='budbPrice']").text
+=> "500"
+
+page.all(:xpath,"//div[contains(@class,'budbTile')]").each do |z|
+
+z.first(:xpath,".//div[contains(@class,'budbname')]").text
+z.first(:xpath,".//div[contains(@class,'budbPriceSections')]/div[contains(@class,'budbPrice')]").text
+z.first(:xpath,".//div[contains(@class,'budbPriceSections')]/div[contains(@class,'budbUnit')]").text
+# add name + price to hash of specials if qty == 1g and price < $9  
+
+We want to get name+price of any 1g strains that are under...8 bucks? Hmm.
+
 =end
 
 require 'capybara'
@@ -28,7 +57,7 @@ end
 Capybara.javascript_driver = :chrome
 Capybara.current_driver = :chrome   #should this be current or default? Explore reasons.
 
-ikes = "http://uncleikespotshop.com/menu"
+ikes = "http://ikes.com/23rd-union"
 
 specials = []
 include Capybara::DSL
@@ -51,14 +80,4 @@ def update_database(specials)
 end
 
 update_database(specials)
-
-
-
-
-
-
-
-
-
-
 
