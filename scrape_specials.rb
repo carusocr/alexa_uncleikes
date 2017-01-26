@@ -34,8 +34,11 @@ specials = Hash.new
 include Capybara::DSL
 visit ikes
 
-page.first(:xpath,"//div[contains(@id,'form-confirm-checkbox')]").click
-page.first(:xpath,'//*[@id="av-submit"]').click
+# If redirected to age confirmation page, click 'I am over 21' box and submit form.
+if page.has_xpath?("//div[contains(@id,'form-confirm-checkbox')]")
+  page.first(:xpath,"//div[contains(@id,'form-confirm-checkbox')]").click
+  page.first(:xpath,'//*[@id="av-submit"]').click
+end
 
 page.all(:xpath,"//div[contains(@class,'budbTile')]").each do |z|
   strain_name = z.first(:xpath,".//div[contains(@class,'budbname')]").text
