@@ -12,14 +12,9 @@ Script to crawl to Uncle Ike's site and get daily specials.
 require 'capybara'
 require 'capybara/dsl'
 require 'sequel'
+require 'yaml'
 
-dbfile = 'db.ini'
-dbcfg=[]
-File.readlines(dbfile).each do |l|
-  dbcfg << l[/=(.*)/,1]
-end
-host,user,pwd,db = dbcfg
-
+@dbcfg = YAML::load(File.open("db.yml"))
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
@@ -48,12 +43,12 @@ page.all(:xpath,"//div[contains(@class,'budbTile')]").each do |z|
 end
 #testing 
 
-$dbh = Sequel.connect("mysql2://#{user}:#{pwd}@#{host}/#{db}")
 def update_database(specials)
+  dbh = Sequel.connect(@dbcfg)
   #delete old data from table
-  $dbh.run("delete from specials")
+  dbh.run("delete from specials")
   specials.each do |k,v|
-    $dbh.run("insert into specials(name) values ('#{k}')")
+    dbh.run("insert into specials(name) values ('#{k}')")
   end
 end
 
