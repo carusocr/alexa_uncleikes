@@ -41,14 +41,13 @@ page.all(:xpath,"//div[contains(@class,'budbTile')]").each do |z|
   strain_price = z.first(:xpath,".//div[@class='budbPrice']").text.sub("00","")
   specials[strain_name] = strain_price if strain_units =~ /1G/ && strain_price.to_i < 8
 end
-#testing 
 
 def update_database(specials)
   dbh = Sequel.connect(@dbcfg)
-  #delete old data from table
-  dbh.run("delete from specials")
+  # Delete old data from table before inserting new rows.
+  dbh[:specials].delete
   specials.each do |k,v|
-    dbh.run("insert into specials(name) values ('#{k}')")
+    dbh[:specials].insert([:name],[k])
   end
 end
 
